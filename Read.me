@@ -1,0 +1,27 @@
+# 🔍 Elasticsearch, Producer (Python) ve Search API (FastAPI) Projesi
+
+Bu proje, bir mikroservis ortamında büyük veri (log/olay) toplama ve gerçek zamanlı arama yeteneğini göstermek için tasarlanmış basit bir veri akışı mimarisidir.
+
+Veri akışı şöyledir: **Producer (Python) ➡️ Elasticsearch (İndeksleme) ➡️ Search API (FastAPI) ➡️ Kullanıcı**.
+
+---
+
+## 🚀 Bileşenler
+
+| Bileşen | Teknoloji | Görev |
+| :--- | :--- | :--- |
+| **Elasticsearch** | `elasticsearch:8.11.0` | Tüm log verilerini indeksler ve saklar. Hızlı arama motoru. |
+| **Producer** | Python 3.12, `elasticsearch-py` | Sürekli olarak yeni "log" kayıtları üretir ve bunları Elasticsearch'e (ES) gönderir. |
+| **Search API** | FastAPI, Uvicorn | Kullanıcılar için bir HTTP arayüzü sağlar. Gelen arama sorgularını ES'e iletir ve sonuçları döndürür. |
+
+---
+
+## 🛠️ Kurulum ve Çalıştırma
+
+Bu projeyi yerel ortamınızda çalıştırmak için **Docker** ve **Docker Compose** kurulu olmalıdır.
+
+### Adım 1: Projeyi Klonlama
+
+```bash
+git clone [https://github.com/KULLANICI_ADINIZ/ELK-Project-Adınız.git](https://github.com/KULLANICI_ADINIZ/ELK-Project-Adınız.git)
+cd ELK-Project-Adınız

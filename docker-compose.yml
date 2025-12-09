@@ -1,0 +1,38 @@
+services:
+  # 1. Elasticsearch Servisi
+  elasticsearch:
+    image: elasticsearch:8.11.0 # Stabil bir sürüm kullanıyoruz
+    container_name: elasticsearch
+    environment:
+      # Tek düğümlü (single-node) geliştirme modu ayarları
+      - discovery.type=single-node
+      - xpack.security.enabled=false # Güvenliği şimdilik devre dışı bırakıyoruz
+    ports:
+      - "9200:9200" # REST API portu
+      - "9300:9300" # Düğüm iletişim portu
+    volumes:
+      - esdata:/usr/share/elasticsearch/data # Verilerin kalıcı olması için volume
+    restart: always
+
+  # 2. Producer Servisi (Logları Elasticsearch'e gönderecek)
+  producer:
+    build: ./producer
+    container_name: producer
+    depends_on:
+      - elasticsearch # Elasticsearch hazır olana kadar bekle
+    restart: on-failure
+
+  # 3. Search API Servisi (Elasticsearch'te arama yapacak)
+  search_service:
+    build: ./search_service
+    container_name: search_service
+    ports:
+      - "8000:8000" # Dışarıdan erişim için FastAPI portu
+    depends_on:
+      - elasticsearch
+    restart: on-failure
+
+# Docker Volume tanımlaması (Verilerin kaybolmaması için)
+volumes:
+  esdata:
+    driver: local
